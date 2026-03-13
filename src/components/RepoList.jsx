@@ -1,9 +1,39 @@
+import { useState } from 'react'
+
 function RepoList({ repos }) {
+    const [filter, setFilter] = useState('Todos')
+
+    const languages = ['Todos', ...new Set(repos.map(r => r.language).filter(Boolean))]
+
+    const filtered = filter === 'Todos'
+        ? repos
+        : repos.filter(repo => repo.language === filter)
     return (
         <div style={{ backgroundColor: '#161b22', padding: '1.5rem', borderRadius: '12px', border: '1px solid #30363d' }}>
             <h3 style={{ fontSize: '1.25rem', marginBottom: '1rem', color: '#ffffff' }}>Repositorios</h3>
+
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
+                {languages.map(lang => (
+                    <button
+                        key={lang}
+                        onClick={() => setFilter(lang)}
+                        style={{
+                            padding: '0.35rem 0.85rem',
+                            borderRadius: '20px',
+                            border: '1px solid #30363d',
+                            backgroundColor: filter === lang ? '#238636' : '#0d1117',
+                            color: '#ffffff',
+                            cursor: 'pointer',
+                            fontSize: '0.85rem'
+                        }}
+                    >
+                        {lang}
+                    </button>
+                ))}
+            </div>
+
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1rem' }}>
-                {repos.map(repo => (
+                {filtered.map(repo => (
                     <a
                         key={repo.id}
                         href={repo.html_url}

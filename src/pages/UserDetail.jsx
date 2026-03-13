@@ -1,12 +1,13 @@
-import { useEffect } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import { useGitHub } from "../hooks/useGitHub.js"
-import UserProfile from "../components/UserProfile.jsx"
-import RepoList from "../components/RepoList.jsx"
-import LanguagesChart from "../components/LanguagesChart.jsx"
+import { useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
+import { useGitHub } from '../hooks/useGitHub'
+import UserProfile from '../components/UserProfile'
+import RepoList from '../components/RepoList'
+import LanguagesChart from '../components/LanguagesChart'
+import CommitsChart from '../components/CommitsChart'
 
 function UserDetail() {
-    const {username} = useParams()
+    const { username } = useParams()
     const navigate = useNavigate()
     const { user, repos, loading, error, searchUser } = useGitHub()
 
@@ -22,9 +23,10 @@ function UserDetail() {
             <button style={styles.back} onClick={() => navigate('/')}>
                 ← Volver
             </button>
-            {user && <UserProfile user={user}/>}
-            {repos.length > 0 && <LanguagesChart repos={repos}/>}
-            {repos.length > 0 && <RepoList repos={repos}/>}
+            {user && <UserProfile user={user} />}
+            {repos.length > 0 && <LanguagesChart repos={repos} />}
+            {repos.length > 0 && <CommitsChart username={username} repos={repos} />}
+            {repos.length > 0 && <RepoList repos={repos} />}
         </div>
     )
 }
